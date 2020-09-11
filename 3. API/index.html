@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The AudioDB API</title>
+    <style>
+        #artists li {
+            font-weight: bold;
+        }
+        #artists li span {
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body>
+    <p>Please type in the artist name and click "Search".</p>
+    <input type="text" id="searchBox" value="" placeholder="Artist Name">
+    <button type="button" id="searchBtn">Search</button>
+    <h1>Artists</h1>
+    <p>You can click on an artist name to get their albums</p>
+    <ul id="artists" onclick="getData('https://theaudiodb.com/api/v1/json/1/album.php?i=', 0, event)"></ul> 
+    <script src="main.js"></script>
+</body>
+</html>

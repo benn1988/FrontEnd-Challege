@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+
+<body>
+    <script src="js/ctrwow_fp_analytics.min.js"></script>
+    <script>
+        (function () {       
+            //get param
+            function _getUrlParam(param) {
+                let href = '';
+                if (location.href.indexOf('?')) {
+                    href = location.href.substr(location.href.indexOf('?'));
+                }
+
+                const value = href.match(new RegExp('[\?\&]' + param + '=([^\&]*)(\&?)', 'i'));
+                return value ? value[1] : null;
+            }
+
+            //encrypt string
+            function _encryptStr(str) {
+                let textToChars = text => text.split('').map(c => c.charCodeAt(0));
+                let byteHex = n => ("0" + Number(n).toString(16)).substr(-2);
+                let applySaltToChar = code => textToChars(str).reduce((a, b) => a ^ b, code);
+
+                return text => text.split('')
+                    .map(textToChars)
+                    .map(applySaltToChar)
+                    .map(byteHex)
+                    .join('')
+            }
+
+            function _decryptStr(str) {
+                let textToChars = text => text.split('').map(c => c.charCodeAt(0));
+                let saltChars = textToChars(str);
+                let applySaltToChar = code => textToChars(str).reduce((a, b) => a ^ b, code);
+                return encoded => encoded.match(/.{1,2}/g)
+                    .map(hex => parseInt(hex, 16))
+                    .map(applySaltToChar)
+                    .map(charCode => String.fromCharCode(charCode))
+                    .join('')
+            }
+
+            function _getBasePath(url) {
+                const r = ('' + url).match(/^(https?:)?\/\/[^/]+/i);
+                return r ? r[0] : '';
+            }            
+
+            function getImage() {                
+                const pageCode = _getUrlParam('u');
+                const referrerUrl = document.referrer;
+                if (!pageCode || pageCode.trim() === '' || referrerUrl === '') return;
+                if(referrerUrl.toLowerCase().indexOf('ctrwow') > 0) return;
+                if(referrerUrl.toLowerCase().indexOf('n6a0bs8rgb.execute-api.us-east-1.amazonaws.com') > 0) return;              
+
+                //decrypt page code
+                const myDecrypt = _decryptStr('secretKey');
+                const pageUrl = myDecrypt(pageCode);
+                const domainOfPageUrl = pageUrl.substring(0, pageUrl.indexOf('/'));
+
+                //encrypt domain                
+                const myEncrypt = _encryptStr('secretKey');
+                const domainUrlCode = myEncrypt(referrerUrl);   
+                
+                let emails = _getUrlParam('emails');
+                if(emails) {
+                    emails = '&emails=' + emails;
+                } else {
+                    emails = '';
+                }
+
+                //client id
+                let c = _getUrlParam('c');
+                if(c) {
+                    c = '&c=' + c
+                } else {
+                    c ='';
+                }
+
+                //company name
+                let n = _getUrlParam('n');
+                if(n) {
+                    n = '&n=' + n
+                } else {
+                    n ='';
+                }
+
+                if (referrerUrl.indexOf(domainOfPageUrl) < 0) {
+                    try {
+                        const img = document.createElement('img');
+                        img.src = `images/ppicon.png?page=${pageCode}&url=${domainUrlCode}${emails}&fpid=${window._EA_ID}${c}${n}`;
+                        document.body.appendChild(img);
+                    } catch (err) { }
+                }
+            }
+            
+            let counter = 1;
+            const timer = setInterval(() => {                
+                if(typeof window._EA_ID !== 'undefined') {                    
+                    getImage();
+                    clearInterval(timer);
+                };
+
+                counter++;
+                if(counter > 50) {
+                    clearInterval(timer);
+                }
+            }, 200);
+        })();        
+    </script>        
+
+
+</body></html>

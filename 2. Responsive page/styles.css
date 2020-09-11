@@ -1,0 +1,111 @@
+
+.jumbotron {
+    background: url("images/bg-hero.jpg") no-repeat center;
+    /* height: 50%; */
+    background-size: cover;
+    position: relative;
+    color: white;
+    border-radius: 0;
+}
+
+.jumbotron .form {
+    color: black;
+    background-color: white;
+}
+
+.arrow-right {
+    width: 0; 
+    height: 0; 
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 13px solid orangered;
+  }
+
+  .find-problem {
+      background-color: #14669E;
+      color: white;
+  }
+
+  .benefits p {
+      background-color: lightgray;
+      border-radius: 1rem;
+      display: inline-block;
+      padding: 0 8px 2px 0;
+      font-weight: bold;
+  }
+  .benefits p:before {
+    content: ' \2713';
+    color: lightskyblue;
+    font-weight: bold;
+    padding: 0 5px 0 10px;
+    font-size: 1.2rem;
+  }
+
+  .benefits span {
+      color: gray;
+      font-size: 0.7rem;
+  }
+
+  .line {
+      width: 98%;
+  }
+
+  .card-body {
+      padding-bottom: .5rem;
+      text-align: center;
+      border: 1px solid orange;
+  }
+
+  .card-body hr {
+    margin: 5px 0;
+  }
+
+  .card-body .card-title {
+    color: orangered;
+    font-weight: bold;
+    margin-bottom: .3rem;
+    font-size: 1rem;
+  }
+
+  .card-body .card-text {
+    font-size: 2.2rem;
+    margin-bottom: .3rem;
+  }
+
+ footer {
+    background-color: #14669E;
+    color: white;
+    font-size: .5rem;
+    text-align: center;
+    padding: .8rem 0 .5rem 0;
+}
+
+@media screen and (max-width: 800px) {
+  .jumbotron .col-7 h2 {
+    font-size: 1.5rem;
+  }
+  .jumbotron .col-7 p {
+    font-size: .9rem;
+  }
+  .benefits p {
+    font-size: .9rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .card-body .card-title {
+    font-size: .9rem;
+  }
+  .card-body .card-text {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .card-body .card-title {
+    font-size: 1rem;
+  }
+  .card-body .card-text {
+    font-size: 2.3rem;
+  }
+}
